@@ -1,0 +1,62 @@
+body {
+  margin: 0;
+  background: #f6f6f6;
+  color: #1f1f1f;
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+.demo-page {
+  box-sizing: border-box;
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 64px 24px 96px;
+}
+
+.demo-hero {
+  margin-bottom: 48px;
+}
+
+.demo-hero h1 {
+  margin: 0;
+  font-size: 44px;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+
+.demo-hero p {
+  max-width: 720px;
+  margin-top: 18px;
+  color: #555;
+  font-size: 18px;
+  line-height: 1.55;
+}
+
+.demo-section {
+  margin-top: 56px;
+}
+
+.demo-section h2 {
+  margin: 0;
+  font-size: 28px;
+  letter-spacing: -0.02em;
+}
+
+.demo-section p {
+  max-width: 760px;
+  color: #555;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.demo-caption {
+  margin-top: 10px;
+  color: #777;
+  font-size: 14px;
+}
