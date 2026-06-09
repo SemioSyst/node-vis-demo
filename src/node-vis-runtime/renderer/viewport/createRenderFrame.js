@@ -12,10 +12,29 @@ const FALLBACK_BOUNDS = {
 };
 
 export function createRenderFrame(output, renderOptions = {}) {
-  const mode = renderOptions.mode ?? 'fit';
+  const mode = normalizeRenderMode(renderOptions.mode ?? 'fit');
 
-  const viewportWidth = Number(renderOptions.viewportWidth ?? 240);
-  const viewportHeight = Number(renderOptions.viewportHeight ?? 160);
+  const viewportWidth = Math.max(
+    1,
+    Number(renderOptions.viewportWidth ?? 240)
+  );
+
+  const viewportHeight = Math.max(
+    1,
+    Number(renderOptions.viewportHeight ?? 160)
+  );
+
+  // Important:
+  // fixedViewport / embed mode must not depend on visual bounds.
+  // Dynamic elements such as tooltips, labels, or transitions should not
+  // cause the whole visualisation to be re-centered or re-scaled.
+  if (mode === 'fixedViewport') {
+    return createFixedViewportRenderFrame({
+      viewportWidth,
+      viewportHeight,
+      renderOptions,
+    });
+  }
 
   const contentBounds = getVisualBounds(output) ?? FALLBACK_BOUNDS;
   const explicitSize = getExplicitRootSize(output);
@@ -45,6 +64,83 @@ export function createRenderFrame(output, renderOptions = {}) {
     renderBounds,
     renderOptions,
   });
+}
+
+function normalizeRenderMode(mode) {
+  if (mode === 'embed') return 'fixedViewport';
+  if (mode === 'fixed') return 'fixedViewport';
+  if (mode === 'fixedViewport') return 'fixedViewport';
+  if (mode === 'actual') return 'actual';
+  return 'fit';
+}
+
+function createFixedViewportRenderFrame({
+  viewportWidth,
+  viewportHeight,
+  renderOptions,
+}) {
+  const viewportX = Number(renderOptions.viewportX ?? 0);
+  const viewportY = Number(renderOptions.viewportY ?? 0);
+
+  const viewWidth = Math.max(
+    1,
+    Number(renderOptions.viewBoxWidth ?? renderOptions.viewportWidth ?? viewportWidth)
+  );
+
+  const viewHeight = Math.max(
+    1,
+    Number(renderOptions.viewBoxHeight ?? renderOptions.viewportHeight ?? viewportHeight)
+  );
+
+  const viewBoxRect = {
+    x: Number.isFinite(viewportX) ? viewportX : 0,
+    y: Number.isFinite(viewportY) ? viewportY : 0,
+    width: viewWidth,
+    height: viewHeight,
+  };
+
+  const renderBounds = makeBounds(
+    viewBoxRect.x,
+    viewBoxRect.y,
+    viewBoxRect.x + viewBoxRect.width,
+    viewBoxRect.y + viewBoxRect.height
+  );
+
+  return {
+    mode: 'fixedViewport',
+
+    viewportWidth,
+    viewportHeight,
+
+    // In fixedViewport mode these are intentionally fixed to the authored
+    // viewport rather than measured from dynamic content.
+    contentBounds: renderBounds,
+    explicitSize: {
+      x: viewBoxRect.x,
+      y: viewBoxRect.y,
+      width: viewBoxRect.width,
+      height: viewBoxRect.height,
+    },
+    renderBounds,
+
+    viewBox: `${viewBoxRect.x} ${viewBoxRect.y} ${viewBoxRect.width} ${viewBoxRect.height}`,
+    viewBoxRect,
+
+    // Fill the embed container, but use a fixed authored viewBox.
+    // xMinYMin prevents SVG from visually centering content if the CSS box
+    // aspect ratio differs from the authored viewport.
+    svgWidth: renderOptions.svgWidth ?? '100%',
+    svgHeight: renderOptions.svgHeight ?? '100%',
+    preserveAspectRatio:
+      renderOptions.preserveAspectRatio ??
+      'xMinYMin meet',
+
+    scaleMode: 'fixedViewport',
+
+    // Tooltips / pointer-following overlays should be allowed to render
+    // outside the authored viewport unless the caller explicitly clips them.
+    overflow: renderOptions.overflow ?? 'visible',
+  };
 }
 
 function createFitRenderFrame({
@@ -91,7 +187,6 @@ function createFitRenderFrame({
     svgHeight: '100%',
     preserveAspectRatio: 'xMidYMid meet',
 
-    // For future HTML / Canvas renderers
     scaleMode: 'fit',
     overflow: 'hidden',
   };
@@ -128,7 +223,6 @@ function createActualRenderFrame({
     svgHeight: actualRect.height,
     preserveAspectRatio: 'xMinYMin meet',
 
-    // For future HTML / Canvas renderers
     scaleMode: 'actual',
     overflow,
   };

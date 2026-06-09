@@ -10,6 +10,16 @@ export default function SvgRenderer({
 }) {
   if (!spec || !renderFrame) return null;
 
+  const svgOverflow =
+    renderFrame.overflow ??
+    (renderFrame.mode === 'fixedViewport' ? 'visible' : 'hidden');
+
+  const svgStyle = {
+    display: 'block',
+    overflow: svgOverflow,
+    background: renderOptions.background ?? undefined,
+  };
+
   return (
     <svg
       className={`output-renderer-svg output-renderer-svg--${renderFrame.mode}`}
@@ -17,6 +27,8 @@ export default function SvgRenderer({
       height={renderFrame.svgHeight}
       viewBox={renderFrame.viewBox}
       preserveAspectRatio={renderFrame.preserveAspectRatio}
+      overflow={svgOverflow}
+      style={svgStyle}
     >
       {renderVisualNode(spec.root, {
         spec,

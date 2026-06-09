@@ -51,3 +51,15 @@ temp/
 
 # Optional: if you export many test bundles locally and don't want all committed
 # src/demos/*.nodevis-embed.local.json
+
+# Raw exported visual bundles
+src/demos/Scenario1.json
+src/demos/Scenario2.json
+src/demos/Scenario3-1.json
+src/demos/Scenario3-2.json
+
+# Optional: if you have local-only scripts
+/scripts
+
+# Keep minified bundles
+!src/demos/*.min.json
