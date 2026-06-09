@@ -1,0 +1,65 @@
+# Dependencies
+node_modules/
+.pnp/
+.pnp.cjs
+
+# Build output
+dist/
+build/
+
+# Vite
+.vite/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Cache
+.cache/
+.parcel-cache/
+.eslintcache
+
+# Coverage
+coverage/
+
+# Temporary files
+tmp/
+temp/
+
+# Local-only exported test files
+*.local.json
+*.tmp.json
+
+# Optional: if you export many test bundles locally and don't want all committed
+# src/demos/*.nodevis-embed.local.json
+
+# Raw exported visual bundles
+src/demos/Scenario1.json
+src/demos/Scenario2.json
+src/demos/Scenario3-1.json
+src/demos/Scenario3-2.json
+
+# Optional: if you have local-only scripts
+/scripts
+
+# Keep minified bundles
+!src/demos/*.min.json
