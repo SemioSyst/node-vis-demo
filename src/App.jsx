@@ -279,7 +279,7 @@ function AppHeader({ page, onNavigate }) {
           onClick={() => onNavigate('home')}
         >
           <span>A Node-Based Authoring Environment</span>
-          <strong>Interactive Evaluation Companion</strong>
+          <strong>Interactive Evaluation Showcase</strong>
         </button>
 
         <nav className="site-nav" aria-label="Scenario navigation">
