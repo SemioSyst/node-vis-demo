@@ -152,7 +152,7 @@ npm install d3-axis d3-scale d3-shape d3-array d3-format
 
 This demo project should not require React Flow. If a copied file imports @xyflow/react, that file is likely editor-only and should be removed or replaced.
 
-Adding a New Demo
+<h2>Adding a New Demo</h2>
 Build the visualisation in the editor.
 Connect the final visual output to a Final Output node.
 Run the evaluator.
@@ -165,11 +165,14 @@ Example:
 
 import newDemo from './demos/new-demo.nodevis-embed.json';
 
+```Mark
 <section className="demo-section">
   <h2>New Demo</h2>
   <p>Description of the interaction.</p>
   <VisualEmbed bundle={newDemo} />
 </section>
+end
+```
 
 Notes on Bundle Rendering
 
