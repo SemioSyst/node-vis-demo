@@ -170,47 +170,7 @@ import newDemo from './demos/new-demo.nodevis-embed.json';
   <p>Description of the interaction.</p>
   <VisualEmbed bundle={newDemo} />
 </section>
-Deployment to GitHub Pages
 
-If deploying to a repository page such as:
-
-https://YOUR_USERNAME.github.io/node-vis-demo/
-
-set the Vite base path in vite.config.js:
-
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-
-export default defineConfig({
-  plugins: [react()],
-  base: '/node-vis-demo/',
-});
-
-Install gh-pages:
-
-npm install -D gh-pages
-
-Add a deploy script in package.json:
-
-{
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "deploy": "npm run build && gh-pages -d dist"
-  }
-}
-
-Deploy:
-
-npm run deploy
-
-Then configure GitHub Pages:
-
-Settings → Pages
-Source: Deploy from a branch
-Branch: gh-pages
-Folder: /root
 Notes on Bundle Rendering
 
 The exported bundle is data. It is rendered by the copied node-vis-runtime folder. This design separates:
