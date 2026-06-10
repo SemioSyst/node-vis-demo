@@ -171,7 +171,6 @@ import newDemo from './demos/new-demo.nodevis-embed.json';
   <p>Description of the interaction.</p>
   <VisualEmbed bundle={newDemo} />
 </section>
-end
 ```
 
 Notes on Bundle Rendering
