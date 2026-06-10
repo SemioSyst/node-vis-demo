@@ -1,9 +1,3 @@
-
----
-
-# 2. Demo repository README
-
-```md
 # Node Visualisation Demo Site
 
 A standalone Vite/React demo site for displaying interactive visualisation bundles exported from the node-based visualisation editor.
